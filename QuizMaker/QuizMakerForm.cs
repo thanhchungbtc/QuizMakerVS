@@ -12,11 +12,11 @@ using QuizMaker.Model;
 using System.IO;
 
 namespace QuizMaker {
-    public partial class Form1 : Form {
+    public partial class QuizMakerForm : Form, IOptionDetailFormDelegate {
 
         // Main datasource
         List<Question> questions;
-        List<Question> originalQuestions;
+        List<Question> originalQuestions; // The lastest version that has been load from file
         // To keep track the modified questions
         List<int> modifiedQuestionIds = new List<int>();
 
@@ -31,12 +31,12 @@ namespace QuizMaker {
             }
         }
 
-        public Form1() {
+        public QuizMakerForm() {
             InitializeComponent();
             initializeData();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {            
+        private void Form1_Load(object sender, EventArgs e) {
             loadGridQuestion();
         }
 
@@ -47,7 +47,7 @@ namespace QuizMaker {
             saveTemporaryData();
         }
 
-        void saveTemporaryData() {            
+        void saveTemporaryData() {
             this.originalQuestions = questions.ConvertAll<Question>(q => {
                 return q.Clone();
             });
@@ -61,16 +61,17 @@ namespace QuizMaker {
 
         // Load grid questions
         void loadGridQuestion() {
-            foreach (var question in this.questions) {
-                grvQuestions.Items.Add(question);
-            }
-            //grvQuestions.DataSource = questions;
-            //grvQuestions.DisplayMember = "Description";
-            //grvQuestions.ValueMember = "Id";
+            //foreach (var question in this.questions) {
+            //    grvQuestions.Items.Add(question);
+            //}
+            grvQuestions.DataSource = null;
+            grvQuestions.DataSource = questions;
+            grvQuestions.DisplayMember = "Description";
+            grvQuestions.ValueMember = "Id";
         }
 
         void loadGridOptions(Question question) {
-            grvOptions.Items.Clear();    
+            grvOptions.Items.Clear();
             foreach (Option option in question.Options) {
                 grvOptions.Items.Add(option, option.IsCorrectAnswer);
             }
@@ -83,7 +84,7 @@ namespace QuizMaker {
                 grvOptions.Items.Clear();
                 return;
             }
-            configureControlsEnable(true);            
+            configureControlsEnable(true);
             txtQuestion.Text = question.Description;
             loadGridOptions(question);
         }
@@ -99,13 +100,13 @@ namespace QuizMaker {
 
         #region "Handler events"
         private void grvQuestions_SelectedIndexChanged(object sender, EventArgs e) {
-            SelectedQuestion = (Question)grvQuestions.SelectedItem;                        
-        }            
+            SelectedQuestion = (Question)grvQuestions.SelectedItem;
+        }
 
         private void grvQuestions_DrawItem(object sender, DrawItemEventArgs e) {
             bool isSelected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
-            if (e.Index > -1) {              
+            if (e.Index > -1) {
                 Color color = isSelected ? SystemColors.Highlight :
                     this.modifiedQuestionIds.Contains(e.Index) ? Color.LightBlue : Color.White;
 
@@ -117,7 +118,7 @@ namespace QuizMaker {
                 // Draw the background
                 e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
                 // Draw the text
-                e.Graphics.DrawString( grvQuestions.Items[e.Index].ToString(), e.Font, textBrush, e.Bounds, StringFormat.GenericDefault);
+                e.Graphics.DrawString("Câu hỏi " + (e.Index + 1) + ": " + grvQuestions.Items[e.Index].ToString(), e.Font, textBrush, e.Bounds, StringFormat.GenericDefault);
 
                 // Clean up
                 backgroundBrush.Dispose();
@@ -125,17 +126,20 @@ namespace QuizMaker {
             }
             e.DrawFocusRectangle();
         }
-        
-        private void btnReset_Click(object sender, EventArgs e) {           
+
+        private void btnReset_Click(object sender, EventArgs e) {
             SelectedQuestion.Description = originalQuestions[grvQuestions.SelectedIndex].Description;
-            grvQuestions_SelectedIndexChanged(grvQuestions, e);            
+            SelectedQuestion.Options = originalQuestions[grvQuestions.SelectedIndex].Options.ConvertAll<Option>(o => {
+                return o.Clone();
+            });
+            grvQuestions_SelectedIndexChanged(grvQuestions, e);
         }
 
         private void txtQuestion_KeyUp(object sender, KeyEventArgs e) {
             int selectedIndex = grvQuestions.SelectedIndex;
             if (selectedIndex < 0 || selectedIndex > this.questions.Count - 1) return;
-            addToModifiedCollection(selectedIndex);       
-            SelectedQuestion.Description = txtQuestion.Text;
+            addToModifiedCollection(selectedIndex);
+            SelectedQuestion.Description = txtQuestion.Text.Trim();
         }
 
         private void grvOptions_ItemCheck(object sender, ItemCheckEventArgs e) {
@@ -149,10 +153,10 @@ namespace QuizMaker {
             // Now you can go further
             var options = SelectedQuestion.Options;
             bool value = e.NewValue == CheckState.Checked ? true : false;
-            if(options[e.Index].IsCorrectAnswer != value) {
+            if (options[e.Index].IsCorrectAnswer != value) {
                 addToModifiedCollection(grvQuestions.SelectedIndex);
                 options[e.Index].IsCorrectAnswer = value;
-            }            
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -161,15 +165,40 @@ namespace QuizMaker {
         }
 
         private void btnAddQuestion_Click(object sender, EventArgs e) {
+            
             Question question = new Question {
                 Id = grvQuestions.Items.Count
             };
             this.questions.Add(question);
-            this.grvQuestions.Items.Add(question);
+            loadGridQuestion();
             grvQuestions.SelectedIndex = this.questions.Count - 1;
+            txtQuestion.Focus();
+        }
+
+        private void btnAddOption_Click(object sender, EventArgs e) {
+            OptionDetailForm detailForm = new OptionDetailForm(null);
+            detailForm.formDelegate = this;
+            detailForm.ShowDialog();
+        }
+
+        private void btnDeleteOption_Click(object sender, EventArgs e) {
+            if (grvOptions.SelectedIndex < 0 | grvOptions.SelectedIndex > grvOptions.Items.Count - 1) {
+                return;
+            }
+            SelectedQuestion.Options.RemoveAt(grvOptions.SelectedIndex);
+            loadGridOptions(SelectedQuestion);
         }
         #endregion
 
 
+        public void submitOptionWithMode(Option option, bool isEditMode) {
+            addToModifiedCollection(grvQuestions.SelectedIndex);
+            if (!isEditMode) {
+                SelectedQuestion.Options.Add(option);
+                loadGridOptions(SelectedQuestion)   ;
+            }
+        }
+
+        
     }
 }

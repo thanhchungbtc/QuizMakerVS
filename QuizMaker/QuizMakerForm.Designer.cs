@@ -1,5 +1,5 @@
 ﻿namespace QuizMaker {
-    partial class Form1 {
+    partial class QuizMakerForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -33,8 +33,8 @@
             this.grvOptions = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtQuestion = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnDeleteOption = new System.Windows.Forms.Button();
+            this.btnAddOption = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -62,8 +62,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.grvOptions);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.txtQuestion);
-            this.splitContainer1.Panel2.Controls.Add(this.button4);
-            this.splitContainer1.Panel2.Controls.Add(this.button5);
+            this.splitContainer1.Panel2.Controls.Add(this.btnDeleteOption);
+            this.splitContainer1.Panel2.Controls.Add(this.btnAddOption);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Size = new System.Drawing.Size(580, 528);
             this.splitContainer1.SplitterDistance = 253;
@@ -77,9 +77,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grvQuestions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.grvQuestions.FormattingEnabled = true;
+            this.grvQuestions.HorizontalScrollbar = true;
+            this.grvQuestions.ItemHeight = 15;
             this.grvQuestions.Location = new System.Drawing.Point(12, 50);
             this.grvQuestions.Name = "grvQuestions";
-            this.grvQuestions.Size = new System.Drawing.Size(238, 420);
+            this.grvQuestions.Size = new System.Drawing.Size(238, 424);
             this.grvQuestions.TabIndex = 5;
             this.grvQuestions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.grvQuestions_DrawItem);
             this.grvQuestions.SelectedIndexChanged += new System.EventHandler(this.grvQuestions_SelectedIndexChanged);
@@ -132,7 +134,7 @@
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReset.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnReset.Location = new System.Drawing.Point(257, 348);
+            this.btnReset.Location = new System.Drawing.Point(251, 348);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(48, 28);
             this.btnReset.TabIndex = 9;
@@ -148,7 +150,7 @@
             this.grvOptions.FormattingEnabled = true;
             this.grvOptions.Location = new System.Drawing.Point(6, 125);
             this.grvOptions.Name = "grvOptions";
-            this.grvOptions.Size = new System.Drawing.Size(300, 214);
+            this.grvOptions.Size = new System.Drawing.Size(294, 214);
             this.grvOptions.TabIndex = 8;
             this.grvOptions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.grvOptions_ItemCheck);
             // 
@@ -168,33 +170,33 @@
             this.txtQuestion.Location = new System.Drawing.Point(6, 50);
             this.txtQuestion.Multiline = true;
             this.txtQuestion.Name = "txtQuestion";
-            this.txtQuestion.Size = new System.Drawing.Size(300, 52);
+            this.txtQuestion.Size = new System.Drawing.Size(294, 52);
             this.txtQuestion.TabIndex = 7;
             this.txtQuestion.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtQuestion_KeyUp);
             // 
-            // button4
+            // btnDeleteOption
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button4.Location = new System.Drawing.Point(60, 348);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(48, 28);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "-";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnDeleteOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteOption.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnDeleteOption.Location = new System.Drawing.Point(60, 348);
+            this.btnDeleteOption.Name = "btnDeleteOption";
+            this.btnDeleteOption.Size = new System.Drawing.Size(48, 28);
+            this.btnDeleteOption.TabIndex = 6;
+            this.btnDeleteOption.Text = "-";
+            this.btnDeleteOption.UseVisualStyleBackColor = true;
+            this.btnDeleteOption.Click += new System.EventHandler(this.btnDeleteOption_Click);
             // 
-            // button5
+            // btnAddOption
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button5.Location = new System.Drawing.Point(6, 348);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(48, 28);
-            this.button5.TabIndex = 5;
-            this.button5.Text = "+";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnAddOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddOption.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnAddOption.Location = new System.Drawing.Point(6, 348);
+            this.btnAddOption.Name = "btnAddOption";
+            this.btnAddOption.Size = new System.Drawing.Size(48, 28);
+            this.btnAddOption.TabIndex = 5;
+            this.btnAddOption.Text = "+";
+            this.btnAddOption.UseVisualStyleBackColor = true;
+            this.btnAddOption.Click += new System.EventHandler(this.btnAddOption_Click);
             // 
             // label2
             // 
@@ -205,13 +207,13 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Options";
             // 
-            // Form1
+            // QuizMakerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 528);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "Form1";
+            this.Name = "QuizMakerForm";
             this.Text = "Quiz Maker";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -231,8 +233,8 @@
         private System.Windows.Forms.Button btnAddQuestion;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnDeleteOption;
+        private System.Windows.Forms.Button btnAddOption;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtQuestion;
         private System.Windows.Forms.CheckedListBox grvOptions;

@@ -50,18 +50,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="OptionDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="OptionDetailForm.Designer.cs">
+      <DependentUpon>OptionDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuizMakerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuizMakerForm.Designer.cs">
+      <DependentUpon>QuizMakerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Option.cs" />
     <Compile Include="Model\Question.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="OptionDetailForm.resx">
+      <DependentUpon>OptionDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuizMakerForm.resx">
+      <DependentUpon>QuizMakerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

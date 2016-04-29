@@ -8,6 +8,7 @@ namespace QuizMaker.Model {
     public class Question {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string ImageUrl { get; set; }
         
         public List<Option> Options { get; set; }      
         public Question() {
@@ -22,10 +23,12 @@ namespace QuizMaker.Model {
             Question clone = new Question {
                 Id = this.Id,
                 Description = this.Description,
+                ImageUrl = this.ImageUrl,
                 Options = this.Options.ConvertAll<Option>(o => {
                     Option cloneO = new Option {
                         Description = o.Description,
-                        IsCorrectAnswer = o.IsCorrectAnswer
+                        IsCorrectAnswer = o.IsCorrectAnswer,
+                        ImageUrl = o.ImageUrl                        
                     };
                     return cloneO;
                 })
